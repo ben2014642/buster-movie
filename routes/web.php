@@ -4,6 +4,8 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\CelebrityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +28,11 @@ Route::prefix('admin')->name('admin.')->group(function ()
     Route::resource('/genre',GenreController::class);
     Route::resource('/country',CountryController::class);
     Route::resource('/celebrity',CelebrityController::class);
+    Route::resource('/movie',MovieController::class);
 });
 
 // Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/movie ', [IndexController::class, 'movie'])->name('movie');
 

@@ -18,15 +18,17 @@
     <link rel="profile" href="#">
 
     <!--Google Font-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
     <!-- Mobile specific meta -->
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone-no">
 
     <!-- CSS files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="assets/css/plugins.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 
@@ -144,7 +146,8 @@
                             <span></span>
                         </div>
                     </div>
-                    <a href="index.html"><img class="logo" src="assets/images/logo1.png" alt="" width="119" height="58"></a>
+                    <a href="index.html"><img class="logo" src="assets/images/logo1.png" alt=""
+                            width="119" height="58"></a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
@@ -163,7 +166,8 @@
                             </ul>
                         </li>
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                data-hover="dropdown">
                                 movies<i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
@@ -181,7 +185,8 @@
                             </ul>
                         </li>
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
@@ -192,7 +197,8 @@
                             </ul>
                         </li>
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                data-hover="dropdown">
                                 news <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
@@ -202,7 +208,8 @@
                             </ul>
                         </li>
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                data-hover="dropdown">
                                 community <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
@@ -215,7 +222,8 @@
                     </ul>
                     <ul class="nav navbar-nav flex-child-menu menu-right">
                         <li class="dropdown first">
-                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown"
+                                data-hover="dropdown">
                                 pages <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
@@ -231,7 +239,7 @@
                 </div>
                 <!-- /.navbar-collapse -->
             </nav>
-
+    
             <!-- top search form -->
             <div class="top-search">
                 <select>
@@ -242,9 +250,12 @@
             </div>
         </div>
     </header>
+    {{-- @yield('header') --}}
     <!-- END | Header -->
+
     @yield('content')
-    
+    <!--end of latest new v1 section-->
+    <!-- footer section-->
     <footer class="ht-footer">
         <div class="container">
             <div class="flex-parent-ft">
@@ -303,10 +314,10 @@
     </footer>
     <!-- end of footer section-->
 
-    <script src="{{ asset('assets/js/jquery.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins2.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/plugins2.js"></script>
+    <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

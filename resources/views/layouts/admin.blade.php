@@ -190,6 +190,24 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarMovie" aria-expanded="false"
+                            aria-controls="sidebarMovie" class="side-nav-link">
+                            <i class="dripicons-user"></i>
+                            <span> Movie </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarMovie">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="{{ route('admin.movie.index') }}">List</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.movie.create') }}">Create Movie</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
 
 
@@ -653,6 +671,7 @@
 <!-- third party js ends -->
 <script src="{{ asset('a_admin/assets/js/pages/demo.dashboard.js') }}"></script>
 @stack('js-datatable')
+@stack('js')
 <!-- demo app -->
 <!-- end demo js-->
 
