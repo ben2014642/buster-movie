@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Genre;
-use App\Models\r;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
-class GenreController extends Controller
+class CountryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = Genre::all();
-        return view('admin.genre.index',compact('genres'));
+        $countries = Country::all();
+        return view('admin.country.index', compact('countries'));
     }
 
     /**
@@ -26,7 +25,7 @@ class GenreController extends Controller
      */
     public function create()
     {
-        return view('admin.genre.create');
+        return view('admin.country.create');
     }
 
     /**
@@ -38,23 +37,23 @@ class GenreController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:30',
             'status' => 'required'
         ]);
-        // dd($validated);
-        $genre = new Genre();
-        $genre->create($validated);
 
-        return redirect()->route('admin.genre.index')->with('success','Created Successfull !');
+        $country = new Country();
+        $country->create($validated);
+
+        return redirect()->route('admin.country.index')->with('success', 'Created Successfull !');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\r  $r
+     * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function show(Genre $genre)
+    public function show(Country $country)
     {
         //
     }
@@ -62,39 +61,41 @@ class GenreController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\r  $r
+     * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function edit(Genre $genre)
+    public function edit(Country $country)
     {
-        return view('admin.genre.edit', compact('genre'));
+        return view('admin.country.edit', compact('country'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\r  $r
+     * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Genre $genre)
+    public function update(Request $request, Country $country)
     {
-        $genre->fill($request->all());
-        $genre->save();
+        $country->name = $request->name;
+        $country->status = $request->status;
 
-        return back()->with('success', 'Update Successfull !');
+        $country->save();
+
+        return back()->with('success', 'Updated Successfull !');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\r  $r
+     * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Genre $genre)
+    public function destroy(Country $country)
     {
-        $genre->delete();
-
+        $country->delete();
         return back()->with('success', 'Deleted Successfull !');
+
     }
 }

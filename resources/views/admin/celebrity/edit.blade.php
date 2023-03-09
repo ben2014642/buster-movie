@@ -18,7 +18,7 @@
                             </a>
                         </form>
                     </div>
-                    <h4 class="page-title">Genre</h4>
+                    <h4 class="page-title">Edit Celebrity</h4>
                 </div>
             </div>
         </div>
@@ -36,28 +36,41 @@
                         </ul>
                     </div>
                 @endif
-                <form method="POST" action="{{ route('admin.genre.update', $genre) }}" class="">
+                <form enctype="multipart/form-data" method="POST" action="{{ route('admin.celebrity.update', $celebrity) }}" class="">
                     @csrf
                     @method('PUT')
                     <div class="col-3">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Genre</label>
-                            <input type="text" class="form-control" value="{{ $genre->name }}" id="exampleInputEmail1"
-                                name="name" aria-describedby="emailHelp" placeholder="Enter email">
-                            
+                            <label for="exampleInputEmail1" class="form-label">Name</label>
+                            <input type="text" class="form-control" value="{{ $celebrity->name }}" id="exampleInputEmail1"
+                                name="name" placeholder="Enter email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Description</label>
+                            <input type="text" class="form-control" value="{{ $celebrity->description }}" id="exampleInputEmail1"
+                                name="description" placeholder="Enter email">
+                        </div>
+                        <div class="mb-3">
+                            <img src="{{ Storage::url($celebrity->image) }}" width="100px" alt="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="image" name="image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Description</label>
+                            <input type="text" class="form-control" value="{{ $celebrity->description }}" id="exampleInputEmail1"
+                                name="description" placeholder="Enter email">
+                        </div>
+                        <div class="mb-3">
                             <select style="width: 120px" class="form-select" name="status" id="">
-                                <option
-                                @if (!$genre->status)
-                                    selected
-                                @endif
-                                value="0">Disable</option>
-                                <option @if ($genre->status)
-                                    selected
-                                @endif value="1">Enable</option>
+                                <option @if (!$celebrity->status) selected @endif value="0">Disable</option>
+                                <option @if ($celebrity->status) selected @endif value="1">Enable</option>
                             </select>
                         </div>
                         <button class="btn btn-primary">Save</button>
-                        <a href="{{ route('admin.genre.index') }}" class="btn btn-danger ms-2">Back</a>
+                        <a href="{{ route('admin.celebrity.index') }}" class="btn btn-danger ms-2">Back</a>
+
                     </div>
                 </form>
             </div>

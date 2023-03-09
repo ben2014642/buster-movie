@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\CelebrityController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GenreController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +24,8 @@ Route::get('/admin',[AdminController::class,'index']);
 Route::prefix('admin')->name('admin.')->group(function ()
 {
     Route::resource('/genre',GenreController::class);
-    // Route::resource('/country',GenreController::class);
+    Route::resource('/country',CountryController::class);
+    Route::resource('/celebrity',CelebrityController::class);
 });
 
 // Auth::routes();

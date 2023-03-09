@@ -18,10 +18,10 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
-                            <li class="breadcrumb-item active">Genre</li>
+                            <li class="breadcrumb-item active">Products</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">Genre</h4>
+                    <h4 class="page-title">Country</h4>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 @endif
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-centered mb-0">
+                        <table id="table-country" class="table table-centered mb-0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -45,24 +45,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($genres as $item)
+                                @foreach ($countries as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>33</td>
-                                        <td>
-                                            @if ($item->status)
-                                                Enable
-                                            @else 
-                                                Disable
-                                            @endif
-
-                                        </td>
+                                        <td>Hiển thị</td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{ route('admin.genre.edit', $item->id) }}"
+                                                <a href="{{ route('admin.country.edit', $item->id) }}"
                                                     class="btn btn-info rounded-pill">EDIT</a>
-                                                <form class="ms-2" method="POST" action="{{ route('admin.genre.destroy', $item->id) }}">
+                                                <form class="ms-2" method="POST" action="{{ route('admin.country.destroy', $item->id) }}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -93,6 +86,6 @@
     <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
 
     <script>
-        let table = new DataTable('#table-genres');
+        let table = new DataTable('#table-country');
     </script>
 @endpush

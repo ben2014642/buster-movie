@@ -139,7 +139,7 @@
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarGenre" aria-expanded="false"
                             aria-controls="sidebarGenre" class="side-nav-link">
-                            <i class="uil-envelope"></i>
+                            <i class="dripicons-tag"></i>
                             <span> Genre </span>
                             <span class="menu-arrow"></span>
                         </a>
@@ -154,8 +154,42 @@
                             </ul>
                         </div>
                     </li>
-
-                    
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarCountry" aria-expanded="false"
+                            aria-controls="sidebarCountry" class="side-nav-link">
+                            <i class="dripicons-web"></i>
+                            <span> Country </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarCountry">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="{{ route('admin.country.index') }}">List</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.country.create') }}">Create Country</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarCelebrity" aria-expanded="false"
+                            aria-controls="sidebarCelebrity" class="side-nav-link">
+                            <i class="dripicons-user"></i>
+                            <span> Celebrity </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarCelebrity">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="{{ route('admin.celebrity.index') }}">List</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.celebrity.create') }}">Create Celebrity</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
 
 

@@ -18,13 +18,13 @@
                             </a>
                         </form>
                     </div>
-                    <h4 class="page-title">Create Genre</h4>
+                    <h4 class="page-title">Create Celebrity</h4>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -34,12 +34,20 @@
                         </ul>
                     </div>
                 @endif
-                <form method="POST" action="{{ route('admin.genre.store') }}" class="">
+                <form method="POST" action="{{ route('admin.celebrity.store') }}" class="" enctype="multipart/form-data">
                     @csrf
                     <div class="col-3">
                         <div class="mb-3">
-                            <label for="genre" class="form-label">Genre</label>
-                            <input type="text" class="form-control" id="genre" name="name">
+                            <label for="celebrity" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="celebrity" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" name="description">
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="image" name="image">
                         </div>
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
@@ -49,7 +57,7 @@
                             </select>
                         </div>
                         <button class="btn btn-primary">Save</button>
-                        <a href="{{ route('admin.genre.index') }}" class="btn btn-danger ms-2">Back</a>
+                        <a href="{{ route('admin.celebrity.index') }}" class="btn btn-danger ms-2">Back</a>
 
                     </div>
                 </form>
