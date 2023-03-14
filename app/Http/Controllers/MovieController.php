@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImageUpload;
 use App\Models\Movie;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,6 +39,7 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'title' => 'required|max:100',
             'slug' => 'required',
@@ -46,14 +49,24 @@ class MovieController extends Controller
             'revenue' => 'required',
             'status' => 'required',
         ]);
-
         $thumbnail = $request->file('thumbnail')->store('public/movie');
         $validated['thumbnail'] = $thumbnail;
 
-        $movie = new Movie();
-        $movie->create($validated);
+        $movie = Movie::create($validated);
+        $arrImage = $request->file('files');
 
-        return redirect()->route('admin.movie.index')->with('success', 'Created Successfull !');
+        $imageData = [];
+        foreach ($arrImage as $image) {
+            $uploadedFileUrl = Cloudinary::upload($image->getRealPath())->getSecurePath();
+            $imageData[] = [
+                'movie_id' => $movie->id,
+                'url' => $uploadedFileUrl
+            ];
+        }
+
+        ImageUpload::insert($imageData);
+
+        // return redirect()->route('admin.movie.index')->with('success', 'Created Successfull !');
     }
 
     /**

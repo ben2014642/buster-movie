@@ -39,7 +39,8 @@
                     <div class="col-3">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" onkeyup="ChangeToSlug()" id="title" name="title">
+                            <input type="text" class="form-control" onkeyup="ChangeToSlug()" id="title"
+                                name="title">
                         </div>
                         <div class="mb-3">
                             <label for="slug" class="form-label">Slug</label>
@@ -61,13 +62,35 @@
                             <label for="revenue" class="form-label">Revenue</label>
                             <input type="text" class="form-control" id="revenue" name="revenue">
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status">
                                 <option value="0">Disable</option>
                                 <option value="1">Enable</option>
                             </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="fileImgInput">Album Photos</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <div class="file-upload">
+                                        <div class="file-select">
+                                            <div class="file-select-button" id="fileName">Choose File</div>
+                                            <div class="file-select-name" id="noFile">No file chosen...</div>
+                                            <input type="file" id="files" name="files[]" multiple>
+                                            <!-- <input type="file" id="file" name="file"> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="exampleInputFile">Preview</label>
+                            <div class="input-group wrap-preview-img">
+                                <img src="https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg" class="img-upload-preview img-fluid no-data-img" alt="">
+                            </div>
                         </div>
                         <button class="btn btn-primary">Save</button>
                         <a href="{{ route('admin.movie.index') }}" class="btn btn-danger ms-2">Back</a>
@@ -116,5 +139,29 @@
             //In slug ra textbox có id “slug”
             document.getElementById('slug').value = slug;
         }
+
+        $("#files").on("change", function(e) {
+            var files = e.target.files;
+            var fileLength = files.length;
+            if (document.querySelector(".no-data-img")) {
+                document.querySelector(".no-data-img").remove();
+            }
+            for (let index = 0; index < fileLength; index++) {
+                var f = files[index];
+                var fileReader = new FileReader();
+                fileReader.onload = function(e) {
+                    var file = e.target;
+                    $("<img></img>", {
+                        class: "img-upload-preview img-fluid",
+                        src: e.target.result,
+                        title: file.name + " | Click to remove"
+                    }).insertAfter(".wrap-preview-img").click(function() {
+                        $(this).remove();
+                    });
+                }
+                fileReader.readAsDataURL(f);
+
+            }
+        })
     </script>
 @endpush

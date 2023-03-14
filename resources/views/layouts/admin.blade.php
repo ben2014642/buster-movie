@@ -20,6 +20,7 @@
         id="light-style" />
     <link href="{{ asset('a_admin/assets/css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css"
         id="dark-style" />
+    <link href="{{ asset('a_admin/assets/css/myStyle.css') }}" rel="stylesheet" type="text/css">
     @stack('datatable')
 
 </head>

@@ -27,8 +27,8 @@
     <meta name="format-detection" content="telephone-no">
 
     <!-- CSS files -->
-    <link rel="stylesheet" href="assets/css/plugins.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
 </head>
 
@@ -146,7 +146,7 @@
                             <span></span>
                         </div>
                     </div>
-                    <a href="index.html"><img class="logo" src="assets/images/logo1.png" alt=""
+                    <a href="index.html"><img class="logo" src="{{ asset('assets/images/logo1.png') }}" alt=""
                             width="119" height="58"></a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -249,7 +249,7 @@
                 <input type="text" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
             </div>
         </div>
-    </header>
+    </header> 
     {{-- @yield('header') --}}
     <!-- END | Header -->
 
@@ -314,10 +314,10 @@
     </footer>
     <!-- end of footer section-->
 
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/plugins2.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="{{ asset('assets/js/jquery.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins2.js')}}"></script>
+    <script src="{{ asset('assets/js/custom.js')}}"></script>
 </body>
 
 </html>
