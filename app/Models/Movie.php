@@ -11,6 +11,7 @@ class Movie extends Model
     protected $fillable = [
         'title', 'slug', 'thumbnail', 'description', 'release_date', 'revenue', 'status'
     ];
+    // protected $appends = ['comments'];
 
     public function images()
     {
@@ -20,6 +21,11 @@ class Movie extends Model
     public function casts()
     {
         return $this->hasMany(MovieCast::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

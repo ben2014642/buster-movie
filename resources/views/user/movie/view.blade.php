@@ -5,10 +5,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- <h1> movie listing - list</h1>
-                <ul class="breadcumb">
-                 <li class="active"><a href="#">Home</a></li>
-                 <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
-                </ul> -->
+                        <ul class="breadcumb">
+                         <li class="active"><a href="#">Home</a></li>
+                         <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                        </ul> -->
                 </div>
             </div>
         </div>
@@ -92,8 +92,8 @@
                                                 <div class="mvsingle-item ov-item">
                                                     @foreach ($movie->images as $img)
                                                         <a class="img-lightbox" data-fancybox-group="gallery"
-                                                            href=""><img
-                                                                src="{{ $img->url }}" style="width: 100px" alt=""></a>
+                                                            href=""><img src="{{ $img->url }}"
+                                                                style="width: 100px" alt=""></a>
                                                     @endforeach
                                                 </div>
                                                 <div class="title-hd-sm">
@@ -103,98 +103,38 @@
                                                 </div>
                                                 <!-- movie cast -->
                                                 <div class="mvcast-item">
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast1.jpg" alt="">
-                                                            <a href="#">Robert Downey Jr.</a>
+                                                    @foreach ($movie->casts as $item)
+                                                        <div class="cast-it">
+                                                            <div class="cast-left">
+                                                                <img src="images/uploads/cast1.jpg" alt="">
+                                                                <a href="#">{{ $item->person_name }}</a>
+                                                            </div>
+                                                            <p>{{ $item->character_name }}</p>
                                                         </div>
-                                                        <p>... Robert Downey Jr.</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast2.jpg" alt="">
-                                                            <a href="#">Chris Hemsworth</a>
-                                                        </div>
-                                                        <p>... Thor</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast3.jpg" alt="">
-                                                            <a href="#">Mark Ruffalo</a>
-                                                        </div>
-                                                        <p>... Bruce Banner/ Hulk</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast4.jpg" alt="">
-                                                            <a href="#">Chris Evans</a>
-                                                        </div>
-                                                        <p>... Steve Rogers/ Captain America</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast5.jpg" alt="">
-                                                            <a href="#">Scarlett Johansson</a>
-                                                        </div>
-                                                        <p>... Natasha Romanoff/ Black Widow</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast6.jpg" alt="">
-                                                            <a href="#">Jeremy Renner</a>
-                                                        </div>
-                                                        <p>... Clint Barton/ Hawkeye</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast7.jpg" alt="">
-                                                            <a href="#">James Spader</a>
-                                                        </div>
-                                                        <p>... Ultron</p>
-                                                    </div>
-                                                    <div class="cast-it">
-                                                        <div class="cast-left">
-                                                            <img src="images/uploads/cast9.jpg" alt="">
-                                                            <a href="#">Don Cheadle</a>
-                                                        </div>
-                                                        <p>... James Rhodes/ War Machine</p>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
                                                 <div class="title-hd-sm">
                                                     <h4>User reviews</h4>
-                                                    <a href="#" class="time">See All 56 Reviews <i
-                                                            class="ion-ios-arrow-right"></i></a>
+                                                    {{-- <a href="#" class="time">See All 56 Reviews <i
+                                                            class="ion-ios-arrow-right"></i></a> --}}
                                                 </div>
                                                 <!-- movie user review -->
-                                                <div class="mv-user-review-item">
-                                                    <h3>Best Marvel movie in my opinion</h3>
-                                                    <div class="no-star">
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star"></i>
-                                                        <i class="ion-android-star last"></i>
+                                                @foreach ($movie->comments as $comment)
+                                                    <div class="mv-user-review-item">
+                                                        <div class="no-star">
+                                                            <i class="ion-android-star"></i>
+                                                            <i class="ion-android-star"></i>
+                                                            <i class="ion-android-star"></i>
+                                                            <i class="ion-android-star"></i>
+                                                            <i class="ion-android-star last"></i>
+                                                        </div>
+                                                        <p class="time">
+                                                            {{ $comment->user->created_at }} by<a href="#"> {{ $comment->user->name }}</a>
+                                                        </p>
+                                                        <p>{{ $comment->comment }}</p>
                                                     </div>
-                                                    <p class="time">
-                                                        17 December 2016 by <a href="#"> hawaiipierson</a>
-                                                    </p>
-                                                    <p>This is by far one of my favorite movies from the MCU. The
-                                                        introduction of new Characters both good and bad also makes the
-                                                        movie more exciting. giving the characters more of a back story can
-                                                        also help audiences relate more to different characters better, and
-                                                        it connects a bond between the audience and actors or characters.
-                                                        Having seen the movie three times does not bother me here as it is
-                                                        as thrilling and exciting every time I am watching it. In other
-                                                        words, the movie is by far better than previous movies (and I do
-                                                        love everything Marvel), the plotting is splendid (they really do
-                                                        out do themselves in each film, there are no problems watching it
-                                                        more than once.</p>
-                                                </div>
+                                                @endforeach
+
                                             </div>
                                             {{-- <div class="col-md-4 col-xs-12 col-sm-12">
                                                 <div class="sb-it">

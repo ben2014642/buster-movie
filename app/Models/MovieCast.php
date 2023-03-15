@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class MovieCast extends Model
 {
     use HasFactory;
-    // protected $appends = ['character'];
+    protected $appends = ['person_name'];
 
-    // public function getCharacterAttribute()
-    // {
-    //     return $this->character_name.'123';
-    // }
+    public function getPersonNameAttribute()
+    {
+        return $this->person->name;
+    }
     public function person()
     {
         return $this->belongsTo(Person::class);

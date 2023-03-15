@@ -21,8 +21,8 @@ class CreateMoviesTable extends Migration
             $table->text('description');
             $table->date('release_date');
             $table->float('revenue');
-            $table->float('votes_avg');
-            $table->integer('votes_count');
+            $table->float('votes_avg')->default(0);
+            $table->integer('votes_count')->default(0);
             $table->timestamps();
         });
     }

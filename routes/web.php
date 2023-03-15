@@ -37,6 +37,7 @@ Route::prefix('admin')->name('admin.')->group(function ()
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/movie', [IndexController::class, 'movie'])->name('movie');
 Route::get('/movie/{slug}', [IndexController::class, 'view_movie'])->name('movie.view');
+Route::get('/movie/{id}/{star}', [IndexController::class, 'rateMovie'])->name('movie.rate');
 
 Route::get('/upload', [UploadController::class, 'index'])->name('upload');
 Route::post('/processUpload', [UploadController::class, 'processUpload'])->name('upload.process');
