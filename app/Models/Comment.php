@@ -20,4 +20,11 @@ class Comment extends Model
     {
         return $this->user->name;
     }
+
+    public static function getTotalComment($movie_id)
+    {
+        $total = Comment::where('movie_id','=',$movie_id)->count();
+
+        return $total;
+    }
 }

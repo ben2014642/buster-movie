@@ -1,0 +1,6 @@
+.ion-ios-star-outline.stared {
+    color: yellow !important;
+}
+.ion-ios-star-outline {
+    cursor: pointer;
+}

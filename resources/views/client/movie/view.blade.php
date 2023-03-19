@@ -5,10 +5,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- <h1> movie listing - list</h1>
-                        <ul class="breadcumb">
-                         <li class="active"><a href="#">Home</a></li>
-                         <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
-                        </ul> -->
+                                                    <ul class="breadcumb">
+                                                     <li class="active"><a href="#">Home</a></li>
+                                                     <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                                                    </ul> -->
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                             <div class="btn-transform transform-vertical red">
                                 <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch
                                         Trailer</a></div>
-                                <div><a href="https://www.youtube.com/embed/o-0hcF97wy0"
+                                <div><a href="https://www.youtube.com/watch?v=Vikn3isAFos"
                                         class="item item-2 redbtn fancybox-media hvr-grow" rel="playlist"><i
                                             class="ion-play"></i></a></div>
                             </div>
@@ -50,24 +50,24 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="movie_id" value="{{ $movie->id }}">
                         <div class="movie-rate">
                             <div class="rate">
                                 <i class="ion-android-star"></i>
-                                <p><span>8.1</span> /10<br>
-                                    <span class="rv">56 Reviews</span>
+                                <p><span>{{ round($movie->votes_avg,1) }}</span> /5<br>
+                                    <span class="rv">{{ $totalCmt }} comments</span>
                                 </p>
                             </div>
                             <div class="rate-star">
                                 <p>Rate This Movie: </p>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star-outline"></i>
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $userStar->star)
+                                        <i data-star="{{ $i }}" class="ion-ios-star-outline stared"></i>
+                                    @else
+                                        <i data-star="{{ $i }}" class="ion-ios-star-outline"></i>
+                                    @endif
+                                @endfor
+
                             </div>
                         </div>
                         <div class="movie-tabs">
@@ -129,7 +129,8 @@
                                                             <i class="ion-android-star last"></i>
                                                         </div>
                                                         <p class="time">
-                                                            {{ $comment->user->created_at }} by<a href="#"> {{ $comment->user->name }}</a>
+                                                            {{ $comment->user->created_at }} by<a href="#">
+                                                                {{ $comment->user->name }}</a>
                                                         </p>
                                                         <p>{{ $comment->comment }}</p>
                                                     </div>
@@ -949,3 +950,30 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $.each($(".ion-ios-star-outline"), function(index, ele) {
+            ele.onclick = function() {
+                rateMovie($(ele).data('star'));
+            }
+        });
+
+
+        function rateMovie(star) {
+            let movieId = $("#movie_id").val();
+            $.ajax({
+                type: "GET",
+                url: "/movie/" + movieId + "/" + star,
+                data: "",
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 'success') {
+                        toastr.success(response.msg, 'success!')
+                    } else {
+                        toastr.error(response.msg, 'error!');
+                    }
+                }
+            });
+        }
+    </script>
+@endpush

@@ -10,34 +10,24 @@ use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 
-Route::get('/admin',[AdminController::class,'index']);
-
-Route::prefix('admin')->name('admin.')->group(function ()
+Route::middleware('verifyAdminLogin')->prefix('admin')->name('admin.')->group(function ()
 {
+    Route::get('/',[AdminController::class,'index']);
     Route::resource('/genre',GenreController::class);
     Route::resource('/country',CountryController::class);
     Route::resource('/celebrity',CelebrityController::class);
     Route::resource('/movie',MovieController::class);
 });
 
-// Auth::routes();
+Auth::routes();
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/movie', [IndexController::class, 'movie'])->name('movie');
 Route::get('/movie/{slug}', [IndexController::class, 'view_movie'])->name('movie.view');
 Route::get('/movie/{id}/{star}', [IndexController::class, 'rateMovie'])->name('movie.rate');
+Route::post('/movie/search', [IndexController::class, 'search'])->name('movie.search');
 
 Route::get('/upload', [UploadController::class, 'index'])->name('upload');
 Route::post('/processUpload', [UploadController::class, 'processUpload'])->name('upload.process');

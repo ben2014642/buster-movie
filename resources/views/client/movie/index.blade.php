@@ -38,10 +38,11 @@
                             <div class="movie-item-style-2 movie-item-style-1">
                                 <img src="{{ Storage::url($item->thumbnail) }}" alt="">
                                 <div class="hvr-inner">
-                                    <a href="{{ route('movie.view',$item->slug) }}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                    <a href="{{ route('movie.view', $item->slug) }}"> Read more <i
+                                            class="ion-android-arrow-dropright"></i> </a>
                                 </div>
                                 <div class="mv-item-infor">
-                                    <h6><a href="{{ route('movie.view',$item->slug) }}">oblivion</a></h6>
+                                    <h6><a href="{{ route('movie.view', $item->slug) }}">oblivion</a></h6>
                                     <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
                                 </div>
                             </div>
@@ -75,61 +76,64 @@
                     <div class="sidebar">
                         <div class="searh-form">
                             <h4 class="sb-title">Search for movie</h4>
-                            <form class="form-style-1" action="#">
+                            <form class="form-style-1" id="formSubmitSearch" action="{{ route('movie.search') }}" method="POST">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>Movie name</label>
-                                        <input type="text" placeholder="Enter keywords">
+                                        <input type="text" name="movie_name" placeholder="Enter keywords">
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Genres &amp; Subgenres</label>
                                         <div class="group-ip">
-                                            <div class="ui fluid dropdown selection multiple" tabindex="0"><select
-                                                    name="skills" multiple="">
+                                            <div class="ui fluid dropdown selection multiple" tabindex="0">
+                                                <select name="genres[]" multiple="">
                                                     <option value="">Enter to filter genres</option>
-                                                    <option value="Action1">Action 1</option>
-                                                    <option value="Action2">Action 2</option>
-                                                    <option value="Action3">Action 3</option>
-                                                    <option value="Action4">Action 4</option>
-                                                    <option value="Action5">Action 5</option>
+                                                    @foreach ($genres as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @endforeach
+
                                                 </select><i class="dropdown icon"></i>
                                                 <div class="default text">Enter to filter genres</div>
                                                 <div class="menu" tabindex="-1">
-                                                    <div class="item" data-value="Action1">Action 1</div>
-                                                    <div class="item" data-value="Action2">Action 2</div>
-                                                    <div class="item" data-value="Action3">Action 3</div>
-                                                    <div class="item" data-value="Action4">Action 4</div>
-                                                    <div class="item" data-value="Action5">Action 5</div>
+                                                    @foreach ($genres as $item)
+                                                        <div class="item" data-value="{{ $item->id }}">
+                                                            {{ $item->name }}</div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 form-it">
+                                    {{-- <div class="col-md-12 form-it">
                                         <label>Rating Range</label>
                                         <select>
                                             <option value="range">-- Select the rating range below --</option>
                                             <option value="saab">-- Select the rating range below --</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-12 form-it">
                                         <label>Release Year</label>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <select>
-                                                    <option value="range">From</option>
-                                                    <option value="number">10</option>
+                                                <select name="fromYear" id="fromYear">
+                                                    <option value="no-data">From</option>
+                                                    @foreach ($years as $item)
+                                                        <option value="{{ $item }}">{{ $item }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <select>
-                                                    <option value="range">To</option>
-                                                    <option value="number">20</option>
+                                                <select name="toYear" id="toYear">
+                                                    <option value="no-data">To</option>
+                                                    @foreach ($years as $item)
+                                                        <option value="{{ $item }}">{{ $item }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12 ">
-                                        <input class="submit" type="submit" value="submit">
+                                        <input class="submit" id="submitSearch" type="submit" value="submit">
                                     </div>
                                 </div>
                             </form>
@@ -205,3 +209,17 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $("#formSubmitSearch").submit(function (e) {
+            let fromYear = $("#fromYear").val();
+            let toYear = $("#toYear").val();
+            if (fromYear > toYear) {
+                toastr.error('Năm bắt đầu không được lớn hơn năm kết thúc !');
+                return;
+            }
+            // console.log('123');
+            $("#formSubmitSearch").submit();
+        });
+    </script>
+@endpush
