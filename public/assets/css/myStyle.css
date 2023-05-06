@@ -4,3 +4,11 @@
 .ion-ios-star-outline {
     cursor: pointer;
 }
+.pagination {
+    margin-top: 22px !important;
+}
+
+#form-search-index {
+    display: flex;
+    width: 100%;
+}

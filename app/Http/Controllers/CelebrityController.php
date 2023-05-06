@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Celebrity;
+use App\Models\ImageCelebrityUpload;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +12,7 @@ class CelebrityController extends Controller
 {
     /**
      * Display a listing of the resource.
-    *
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -37,18 +39,30 @@ class CelebrityController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|max:30',
-            'status' => 'required',
-            'description' => 'required|max:100'
+            'introduce' => 'required',
+            'country' => 'required',
+            'slug' => 'required'
         ]);
-
+        // dd($validated);
         $image = $request->file('image')->store('public/celebrity');
         $validated['image'] = $image;
 
         $celebrity = new Celebrity();
         $celebrity->create($validated);
 
+        $arrImage = $request->file('files');
+        $imageData = [];
+        foreach ($arrImage as $item) {
+            $uploadedFileUrl = Cloudinary::upload($item->getRealPath())->getSecurePath();
+            $imageData[] = [
+                'person_id' => 1,
+                'url' => $uploadedFileUrl
+            ];
+        }
+        ImageCelebrityUpload::insert($imageData);
         return redirect()->route('admin.celebrity.index')->with('success', 'Created Successfull !');
     }
 
@@ -78,11 +92,18 @@ class CelebrityController extends Controller
     public function update(Request $request, Celebrity $celebrity)
     {
         $celebrity->name = $request->name;
-        $celebrity->status = $request->status;
-        $celebrity->description = $request->description;
+        $celebrity->introduce = $request->introduce;
+        $celebrity->country = $request->country;
+        $celebrity->slug = $request->slug;
+        $image = $celebrity->image;
         if ($request->hasFile('image')) {
             Storage::delete($celebrity->image);
             $image = $request->file('image')->store('public/celebrity');
+        }
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $item) {
+                Storage::delete($item);
+            }
         }
         $celebrity->image = $image;
         $celebrity->save();
@@ -103,6 +124,5 @@ class CelebrityController extends Controller
         }
         $celebrity->delete();
         return back()->with('success', 'Deleted Successfull !');
-
     }
 }

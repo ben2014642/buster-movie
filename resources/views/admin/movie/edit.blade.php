@@ -43,35 +43,40 @@
                     <div class="col-3">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" onkeyup="ChangeToSlug()" id="title"
-                                name="title">
+                            <input type="text" value="{{ $movie->title }}" class="form-control" onkeyup="ChangeToSlug()"
+                                id="title" name="title">
                         </div>
                         <div class="mb-3">
                             <label for="slug" class="form-label">Slug</label>
-                            <input type="text" class="form-control" id="slug" name="slug">
+                            <input type="text" value="{{ $movie->slug }}" class="form-control" id="slug"
+                                name="slug">
                         </div>
                         <div class="mb-3">
                             <label for="thumbnail" class="form-label">Thumbnail</label>
                             <input type="file" class="form-control" id="thumbnail" name="thumbnail">
+                            <img style="width: 100px" src="{{ Storage::url($movie->thumbnail) }}" alt="">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="description" name="description">
+                            <input type="text" value="{{ $movie->description }}" class="form-control" id="description"
+                                name="description">
                         </div>
                         <div class="mb-3">
                             <label for="release_date" class="form-label">Release Date</label>
-                            <input type="date" class="form-control" id="release_date" name="release_date">
+                            <input type="date" value="{{ $movie->release_date }}" class="form-control" id="release_date"
+                                name="release_date">
                         </div>
                         <div class="mb-3">
                             <label for="revenue" class="form-label">Revenue</label>
-                            <input type="text" class="form-control" id="revenue" name="revenue">
+                            <input type="text" value="{{ $movie->revenue }}" class="form-control" id="revenue"
+                                name="revenue">
                         </div>
 
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status">
-                                <option value="0">Disable</option>
-                                <option value="1">Enable</option>
+                                <option @if (!$movie->status) selected @endif value="0">Disable</option>
+                                <option @if ($movie->status == 1) selected @endif value="1">Enable</option>
                             </select>
                         </div>
                         <button class="btn btn-primary">Save</button>
@@ -85,3 +90,41 @@
 
     </div>
 @endsection
+@push('js')
+    <script>
+        function ChangeToSlug() {
+            var title, slug;
+
+            //Lấy text từ thẻ input title 
+            title = document.getElementById("title").value;
+
+            //Đổi chữ hoa thành chữ thường
+            slug = title.toLowerCase();
+
+            //Đổi ký tự có dấu thành không dấu
+            slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+            slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+            slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+            slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+            slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+            slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+            slug = slug.replace(/đ/gi, 'd');
+            //Xóa các ký tự đặt biệt
+            slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+            //Đổi khoảng trắng thành ký tự gạch ngang
+            slug = slug.replace(/ /gi, " - ");
+            //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+            //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+            slug = slug.replace(/\-\-\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-\-/gi, '-');
+            slug = slug.replace(/\-\-/gi, '-');
+            //Xóa các ký tự gạch ngang ở đầu và cuối
+            slug = '@' + slug + '@';
+            slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+            slug = slug.replace(/ /gi, "");
+            //In slug ra textbox có id “slug”
+            document.getElementById('slug').value = slug;
+        }
+    </script>
+@endpush

@@ -28,4 +28,9 @@ class Movie extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function getYearOfReleaseAttribute()
+    {
+        return substr($this->release_date,0,4);
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Models\ImageUpload;
 use App\Models\Movie;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
@@ -66,7 +67,7 @@ class MovieController extends Controller
 
         ImageUpload::insert($imageData);
 
-        // return redirect()->route('admin.movie.index')->with('success', 'Created Successfull !');
+        return redirect()->route('admin.movie.index')->with('success', 'Created Successfull !');
     }
 
     /**
@@ -82,6 +83,7 @@ class MovieController extends Controller
 
     public function edit(Movie $movie)
     {
+
         return view('admin.movie.edit', compact('movie'));
     }
 
@@ -95,11 +97,12 @@ class MovieController extends Controller
     public function update(Request $request, Movie $movie)
     {
         $movie->fill($request->all());
+        $image = $movie->thumbnail;
         if ($request->hasFile('thumbnail')) {
             Storage::delete($movie->image);
             $image = $request->file('thumbnail')->store('public/movie');
         }
-        $movie->image = $image;
+        $movie->thumbnail = $image;
         $movie->save();
 
         return back()->with('success', 'Updated Successfull !');
@@ -120,6 +123,31 @@ class MovieController extends Controller
         return back()->with('success', 'Deleted Successfull !');
     }
 
+    public function search(Request $request)
+    {
+        $query = Movie::query();
 
-   
+        // Tìm kiếm theo tên phim
+        if ($request->movie_name != null) {
+            $query->where('title', 'like', '%' . $request->input('movie_name') . '%');
+        }
+
+        // Tìm kiếm theo thể loại
+        if ($request->has('genres')) {
+            // dd(0);
+            $query->join('movie_genres', 'movie_genres.movie_id', '=', 'movies.id')
+                ->join('genres', 'movie_genres.genre_id', '=', 'genres.id')
+                ->whereIn('genres.id', $request->genres);
+        }
+
+        // Tìm kiếm theo năm
+        if ($request->fromYear != 'no-data' && $request->toYear != 'no-data') {
+            $query->whereBetween(DB::raw('YEAR(release_date)'), [$request->fromYear, $request->toYear]);
+        }
+
+        $movies = $query->get();
+        // $totalMovieOfSearch = $movies->count();
+        // dd($movies->count());
+        return view('client.movie.search', compact('movies',));
+    }
 }

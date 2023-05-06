@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Celebrity;
 use App\Models\Comment;
 use App\Models\Genre;
 use App\Models\Movie;
@@ -18,25 +19,31 @@ class IndexController extends Controller
     }
     public function movie()
     {
-        $movies = Movie::all();
+        $movies = Movie::paginate(10);
         $genres = Genre::all();
         $years = DB::table('movies')
             ->selectRaw('DISTINCT YEAR(release_date) as year')
             ->orderBy('year', 'asc')
             ->get()->pluck('year');
-
+        $movies->totalMovie = $movies->count();
         return view('client.movie.index', compact('movies', 'genres', 'years'));
     }
 
     public function view_movie($slug)
     {
         $movie = Movie::where('slug', $slug)->first();
-        $userStar = DB::table('movie_rates')
-            ->where([
-                ['movie_id', '=', $movie->id],
-                ['user_id', '=', Auth::user()->id]
-            ])
-            ->first() ?? 0;
+        $userStar = 0;
+        if (Auth::check()) {
+            $userStar = DB::table('movie_rates')
+                ->where([
+                    ['movie_id', '=', $movie->id],
+                    ['user_id', '=', Auth::user()->id]
+                ])
+                ->first();
+        }
+        if ($userStar) {
+            $userStar = $userStar->star;
+        }
         $totalCmt = Comment::getTotalComment($movie->id);
         return view('client.movie.view', compact('movie', 'userStar', 'totalCmt'));
     }
@@ -91,33 +98,17 @@ class IndexController extends Controller
             'msg' => 'Đánh giá thành công!'
         ]);
     }
-
     public function search(Request $request)
     {
-        $query = Movie::query();
+        if ($request->option_search == 'movie') {
+            $query = Movie::where('title', 'like', '%' . $request->value . '%');
+            $movies = $query->get();
+            return view('client.movie.search', compact('movies',));
+        } else {
+            $query = Celebrity::where('name', 'like', '%' . $request->value . '%');
+            $celebrities = $query->paginate(6);
+            return view('client.celebrity.index', compact('celebrities'));
 
-        // Tìm kiếm theo tên phim
-        if ($request->movie_name != null) {
-            dd(1);
-            $query->where('title', 'like', '%' . $request->input('movie_name') . '%');
         }
-
-        // Tìm kiếm theo thể loại
-        if ($request->has('genres')) {
-            // dd(0);
-            $query->join('movie_genres', 'movie_genres.movie_id', '=', 'movies.id')
-            ->join('genres', 'movie_genres.genre_id', '=', 'genres.id')
-            ->whereIn('genres.id',$request->genres);
-        }
-
-        // Tìm kiếm theo năm
-        if ($request->fromYear != 'no-data' && $request->toYear != 'no-data') {
-            $query->whereBetween(DB::raw('YEAR(release_date)'),[$request->fromYear, $request->toYear]);
-        }
-
-        $movies = $query->paginate(10);
-        dd($movies);
-
-        return view('client.movie.search', compact('movies'));
     }
 }

@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="hero-ct">
-                        <h1> movie listing - grid</h1>
+                        <h1> movie listing</h1>
                         <ul class="breadcumb">
-                            <li class="active"><a href="#">Home</a></li>
+                            <li class="active"><a href="{{ route('home') }}">Home</a></li>
                             <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
                         </ul>
                     </div>
@@ -18,21 +18,9 @@
     <div class="page-single">
         <div class="container">
             <div class="row ">
+
                 <div class="col-md-8 col-sm-12 col-xs-12">
-                    {{-- <div class="topbar-filter">
-                        <p>Found <span>1,608 movies</span> in total</p>
-                        <label>Sort by:</label>
-                        <select>
-                            <option value="popularity">Popularity Descending</option>
-                            <option value="popularity">Popularity Ascending</option>
-                            <option value="rating">Rating Descending</option>
-                            <option value="rating">Rating Ascending</option>
-                            <option value="date">Release date Descending</option>
-                            <option value="date">Release date Ascending</option>
-                        </select>
-                        <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
-                        <a href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
-                    </div> --}}
+
                     <div class="flex-wrap-movielist">
                         @foreach ($movies as $item)
                             <div class="movie-item-style-2 movie-item-style-1">
@@ -42,7 +30,7 @@
                                             class="ion-android-arrow-dropright"></i> </a>
                                 </div>
                                 <div class="mv-item-infor">
-                                    <h6><a href="{{ route('movie.view', $item->slug) }}">oblivion</a></h6>
+                                    <h6><a href="{{ route('movie.view', $item->slug) }}">{{ $item->title }}</a></h6>
                                     <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
                                 </div>
                             </div>
@@ -53,30 +41,25 @@
                     {{-- pagination --}}
                     <div class="topbar-filter">
                         <label>Movies per page:</label>
-                        <select>
-                            <option value="range">20 Movies</option>
-                            <option value="saab">10 Movies</option>
-                        </select>
+                        <p class="sb-title">{{ $movies->totalMovie }} Movies</p>
 
-                        <div class="pagination2">
-                            <span>Page 1 of 2:</span>
-                            <a class="active" href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">...</a>
-                            <a href="#">78</a>
-                            <a href="#">79</a>
-                            <a href="#"><i class="ion-arrow-right-b"></i></a>
-                        </div>
+                        {{-- <div class="pagination2"> --}}
+                        {{ $movies->links('pagination::bootstrap-4') }}
+                        {{-- </div> --}}
                     </div>
                 </div>
 
                 {{-- SEARCH MOVIE --}}
                 <div class="col-md-4 col-sm-12 col-xs-12">
+
                     <div class="sidebar">
                         <div class="searh-form">
+                            @error('movie_name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                             <h4 class="sb-title">Search for movie</h4>
-                            <form class="form-style-1" id="formSubmitSearch" action="{{ route('movie.search') }}" method="POST">
+                            <form class="form-style-1" id="formSubmitSearch" action="{{ route('movie.search') }}"
+                                method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 form-it">
@@ -87,7 +70,7 @@
                                         <label>Genres &amp; Subgenres</label>
                                         <div class="group-ip">
                                             <div class="ui fluid dropdown selection multiple" tabindex="0">
-                                                <select name="genres[]" multiple="">
+                                                <select id="genre" name="genres[]" multiple="">
                                                     <option value="">Enter to filter genres</option>
                                                     @foreach ($genres as $item)
                                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -211,7 +194,15 @@
 @endsection
 @push('js')
     <script>
-        $("#formSubmitSearch").submit(function (e) {
+        $("#submitSearch").on('click', function(e) {
+            e.preventDefault();
+            // console.log('123'); return;
+            if (checkAllEmptyInForm()) {
+                // console.log('1231232');
+                toastr.error('Vui lòng nhập vào một trường hợp lệ !');
+                return;
+            }
+
             let fromYear = $("#fromYear").val();
             let toYear = $("#toYear").val();
             if (fromYear > toYear) {
@@ -221,5 +212,15 @@
             // console.log('123');
             $("#formSubmitSearch").submit();
         });
+
+        function checkAllEmptyInForm() {
+            let movie_name = $('input[name=movie_name]');
+            let genre = $('#genre').find(':selected');
+            let fromYear = $("#fromYear").find(':selected');
+            let toYear = $("#toYear").find(':selected');
+            // console.log(toYear.val() == 'no-data');
+            return (!movie_name.val() && !genre.val()) && (fromYear.val() == 'no-data' && toYear.val() == 'no-data')
+
+        }
     </script>
 @endpush

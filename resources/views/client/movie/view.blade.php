@@ -4,11 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- <h1> movie listing - list</h1>
-                                                    <ul class="breadcumb">
-                                                     <li class="active"><a href="#">Home</a></li>
-                                                     <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
-                                                    </ul> -->
+
                 </div>
             </div>
         </div>
@@ -54,19 +50,27 @@
                         <div class="movie-rate">
                             <div class="rate">
                                 <i class="ion-android-star"></i>
-                                <p><span>{{ round($movie->votes_avg,1) }}</span> /5<br>
+                                <p><span>{{ round($movie->votes_avg, 1) }}</span> /5<br>
                                     <span class="rv">{{ $totalCmt }} comments</span>
                                 </p>
                             </div>
                             <div class="rate-star">
                                 <p>Rate This Movie: </p>
-                                @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $userStar->star)
-                                        <i data-star="{{ $i }}" class="ion-ios-star-outline stared"></i>
-                                    @else
-                                        <i data-star="{{ $i }}" class="ion-ios-star-outline"></i>
-                                    @endif
-                                @endfor
+                                @if (isset($userStar) && $userStar >= 1)
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $userStar)
+                                            <i data-star="{{ $i }}" class="ion-ios-star-outline stared"></i>
+                                        @else
+                                            <i data-star="{{ $i }}" class="ion-ios-star-outline"></i>
+                                        @endif
+                                    @endfor
+                                @else
+                                    <i data-star="1" class="ion-ios-star-outline"></i>
+                                    <i data-star="2" class="ion-ios-star-outline"></i>
+                                    <i data-star="3" class="ion-ios-star-outline"></i>
+                                    <i data-star="4" class="ion-ios-star-outline"></i>
+                                    <i data-star="5" class="ion-ios-star-outline"></i>
+                                @endif
 
                             </div>
                         </div>
@@ -74,10 +78,10 @@
                             <div class="tabs">
                                 <ul class="tab-links tabs-mv">
                                     <li class="active"><a href="#overview">Overview</a></li>
-                                    <li><a href="#reviews"> Reviews</a></li>
+                                    {{-- <li><a href="#reviews"> Reviews</a></li>
                                     <li><a href="#cast"> Cast &amp; Crew </a></li>
                                     <li><a href="#media"> Media</a></li>
-                                    <li><a href="#moviesrelated"> Related Movies</a></li>
+                                    <li><a href="#moviesrelated"> Related Movies</a></li> --}}
                                 </ul>
                                 <div class="tab-content">
                                     <div id="overview" class="tab active">
@@ -115,8 +119,6 @@
                                                 </div>
                                                 <div class="title-hd-sm">
                                                     <h4>User reviews</h4>
-                                                    {{-- <a href="#" class="time">See All 56 Reviews <i
-                                                            class="ion-ios-arrow-right"></i></a> --}}
                                                 </div>
                                                 <!-- movie user review -->
                                                 @foreach ($movie->comments as $comment)
